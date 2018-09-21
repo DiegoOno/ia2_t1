@@ -1,9 +1,18 @@
 POSSIBLE_STATES = ['LOW', 'AVG', 'HIGH']
 
 class Node:
-    def __init__(self, state):
-        if (state.upper() in POSSIBLE_STATES):
-            self.state = state
+    stateProb = {}
+
+    def __init__(self, name):
+        self.name = name
+
+    def createState(self, stateName, probability):
+        if (stateName.upper() in POSSIBLE_STATES):
+            self.stateProb[stateName] = probability
         else:
-            raise ValueError("Invalid state: " + state +
+            raise ValueError("Invalid state: " + stateName +
                     ". Valid states are: " + str(POSSIBLE_STATES))
+
+    def getStateProb(self, stateName):
+        return self.stateProb[stateName]
+
