@@ -26,6 +26,8 @@ def main():
     BayesianTree.append(node2)
 
     node3 = Node('PIP3')
+    node3Probabilities = {'LOW': [0.2184310, 0.4473238, 0.3342453], 'AVG': [0.07796694, 0.21120158, 0.71083148], 'HIGH': [0.4237055, 0.4396535, 0.1366411]}
+    node3.setProbabilities(node3Probabilities)
     BayesianTree.append(node3)
 
     node4 = Node('Raf')
@@ -50,7 +52,7 @@ def main():
     BayesianTree.append(node10)
     #print(node.getStateProb('LOW'))
 
-    #print(node2.probabilities)
+    print(node3.probabilities)
 
 if (__name__ == '__main__'):
     main()
