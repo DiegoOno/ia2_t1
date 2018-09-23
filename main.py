@@ -52,7 +52,9 @@ def main():
     BayesianTree.append(node10)
     #print(node.getStateProb('LOW'))
 
-    print(node3.probabilities)
+    #print(node3.probabilities)
+    print(node3.probabilities['LOW'][0])
+    print(node3.probabilities['LOW'][1])
 
 if (__name__ == '__main__'):
     main()
