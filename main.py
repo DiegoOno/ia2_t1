@@ -10,14 +10,14 @@ def main():
     node0.createState('LOW', 0.42313152)
     node0.createState('AVG', 0.48163920)
     node0.createState('HIGH', 0.09522928)
-
+    node0.setParents('')
     BayesianTree.append(node0)
 
     node1 = Node('Plcg')
     node1.createState('LOW', 0.81213356)
     node1.createState('AVG', 0.08337962)
     node1.createState('HIGH', 0.10448682)
-    
+    node1.setParents('')
     BayesianTree.append(node1)
     
     node2 = Node('PKA')
@@ -26,6 +26,7 @@ def main():
         'AVG': [0.06039638, 0.92264651, 0.01695712],
         'HIGH': [0.01577014, 0.95873839, 0.02549147]}
     node2.setProbabilities(node2Probabilities)
+    node2.setParents(['PKC'])
     BayesianTree.append(node2)
 
     node3 = Node('PIP3')
@@ -34,6 +35,7 @@ def main():
         'AVG': [0.07796694, 0.21120158, 0.71083148],
         'HIGH': [0.4237055, 0.4396535, 0.1366411]}
     node3.setProbabilities(node3Probabilities)
+    node3.setParents(['Plcg'])
     BayesianTree.append(node3)
 
     node4 = Node('Raf')
@@ -49,6 +51,7 @@ def main():
         'HIGH-HIGH': [0.841807910, 0.155367232, 0.002824859]
     }
     node4.setProbabilities(node4Probabilities)
+    node4.setParents(['PKA', 'PKC'])
     BayesianTree.append(node4)
 
     node5 = Node('Jnk')
@@ -64,6 +67,7 @@ def main():
         'HIGH-HIGH': [0.155367232, 0.841807910, 0.002824859]
     }
     node5.setProbabilities(node5Probabilities)
+    node5.setParents(['PKA', 'PKC'])
     BayesianTree.append(node5)
 
     node6 = Node('P38')
@@ -79,6 +83,7 @@ def main():
         'HIGH-HIGH': [0.765536723, 0.231638418, 0.002824859]
     }
     node6.setProbabilities(node6Probabilities)
+    node6.setParents(['PKA', 'PKC'])
     BayesianTree.append(node6)
 
     node7 = Node('PIP2')
@@ -94,6 +99,7 @@ def main():
         'HIGH-HIGH': [0.02641691, 0.05235351, 0.92122959]
     }
     node7.setProbabilities(node7Probabilities)
+    node7.setParents(['PIP3', 'Plcg'])
     BayesianTree.append(node7)
 
     node8 = Node('Mek')
@@ -127,6 +133,7 @@ def main():
         'HIGH-HIGH-HIGH': [0.3333333, 0.3333333, 0.3333333]
     }
     node8.setProbabilities(node8Probabilities)
+    node8.setParents(['PKA', 'PKC', 'Raf'])
     BayesianTree.append(node8)
     
     node9 = Node('Erk')
@@ -142,6 +149,7 @@ def main():
         'HIGH-HIGH': [0.03333333, 0.03333333, 0.93333333]
     }
     node9.setProbabilities(node9Probabilities)
+    node9.setParents(['Mek', 'PKA'])
     BayesianTree.append(node9)
     
     node10 = Node('Akt')
@@ -157,13 +165,14 @@ def main():
         'HIGH-HIGH': [0.1703412073, 0.8293963255, 0.0002624672]
     }
     node10.setProbabilities(node10Probabilities)
+    node10.setParents(['Erk', 'PKA'])
     BayesianTree.append(node10)
     #print(node.getStateProb('LOW'))
 
     #print(node3.probabilities)
     #print(node3.probabilities['LOW'][0])
     #print(node4.probabilities['AVG-HIGH'][0])  
-    print(node8.probabilities)
+    #print(node8.probabilities)
 
 if (__name__ == '__main__'):
     main()

@@ -6,6 +6,8 @@ class Node:
     def __init__(self, name):
         self.name = name
         self.probabilities = []
+        self.parents = []
+        self.state = ''
 
     def createState(self, stateName, probability):
         if (stateName.upper() in POSSIBLE_STATES):
@@ -16,6 +18,9 @@ class Node:
 
     def setProbabilities(self, dict):
         self.probabilities = dict
+
+    def setParents(self, parentsList):
+        self.parents = parentsList
 
     def getStateProb(self, stateName):
         return self.stateProb[stateName]
