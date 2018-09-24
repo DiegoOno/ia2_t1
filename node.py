@@ -1,18 +1,30 @@
 POSSIBLE_STATES = ['LOW', 'AVG', 'HIGH']
+N_STATES = len(POSSIBLE_STATES)
 
 class Node:
-    stateProb = {}
-
     def __init__(self, name):
-        self.name = name
+        self.name = name.upper()
+        self.previousStates = []
+        self.stateProb = {}
+        self.transitionProb = {}
 
     def createState(self, stateName, probability):
-        if (stateName.upper() in POSSIBLE_STATES):
+        stateName = stateName.upper()
+        if (stateName in POSSIBLE_STATES):
             self.stateProb[stateName] = probability
         else:
             raise ValueError("Invalid state: " + stateName +
                     ". Valid states are: " + str(POSSIBLE_STATES))
-
+    
     def getStateProb(self, stateName):
-        return self.stateProb[stateName]
+        stateName = stateName.upper()
+        if (stateName not in self.stateProb):
+            raise KeyError('State: ' + stateName + ' has no value.')
 
+        else:
+            return self.stateProb[stateName]
+
+    def setTransition(self, prevStates, prob):
+        #prevStates is tuple
+        #i.e. (LOW, LOW) or (LOW, AVG)
+        self.transitionProb[prevStates] = [float(a) for a in prob]
