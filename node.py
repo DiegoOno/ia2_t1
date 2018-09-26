@@ -22,6 +22,9 @@ class Node:
     def setParents(self, parentsList):
         self.parents = parentsList
 
+    def setState(self, state):
+        self.state = state
+
     def getStateProb(self, stateName):
         return self.stateProb[stateName]
 

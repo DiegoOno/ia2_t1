@@ -1,22 +1,23 @@
 from node import Node
 
-FILE = "data/sachs.bif"
+BayesianTree = [] #This should be a class too ?
 
 def main():
     #Something like:
-    BayesianTree = [] #This should be a class too ?
-
+    
     node0 = Node('PKC')
-    node0.createState('LOW', 0.42313152)
-    node0.createState('AVG', 0.48163920)
-    node0.createState('HIGH', 0.09522928)
+    node0Probabilities = {
+            'SELF': [0.42313152, 0.48163920, 0.09522928]
+            }
+    node0.setProbabilities(node0Probabilities)
     node0.setParents('')
     BayesianTree.append(node0)
 
     node1 = Node('Plcg')
-    node1.createState('LOW', 0.81213356)
-    node1.createState('AVG', 0.08337962)
-    node1.createState('HIGH', 0.10448682)
+    node1Probabilities = {
+            'SELF': [0.81213356, 0.08337962, 0.10448682]
+            }
+    node1.setProbabilities(node1Probabilities)
     node1.setParents('')
     BayesianTree.append(node1)
     
@@ -167,12 +168,14 @@ def main():
     node10.setProbabilities(node10Probabilities)
     node10.setParents(['Erk', 'PKA'])
     BayesianTree.append(node10)
-    #print(node.getStateProb('LOW'))
+    getState()
 
-    #print(node3.probabilities)
-    #print(node3.probabilities['LOW'][0])
-    #print(node4.probabilities['AVG-HIGH'][0])  
-    #print(node8.probabilities)
+    
+def getState():
+    stateAux = ''
+    for i in range(0, BayesianTree.__len__() - 1):
+        stateAux = 'HIGH'
+        BayesianTree[i].setState(stateAux)
 
 if (__name__ == '__main__'):
     main()
