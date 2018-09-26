@@ -1,10 +1,22 @@
 from node import Node
 
-BayesianTree = [] #This should be a class too ?
+BayesianTree = [] 
 
 def main():
-    #Something like:
+    jointProbability = 0.0
     
+    populateBayesianTree()
+    setState()
+    jointProbability = calculateJointProbability()
+
+    #Debug
+    for i in range(0, BayesianTree.__len__()):
+        print('Estado no nó ' + BayesianTree[i].name + ': ' + BayesianTree[i].state + '\n')
+
+    print('A probabilidade conjunta da rede com os estados fornecidos é: ' + str(jointProbability) + '\n')
+
+def populateBayesianTree():
+
     node0 = Node('PKC')
     node0Probabilities = {
             'SELF': [0.42313152, 0.48163920, 0.09522928]
@@ -58,7 +70,7 @@ def main():
     node5 = Node('Jnk')
     node5Probabilities = {
         'LOW-LOW': [0.2899262, 0.2457641, 0.4643097],
-        'AVR-LOW': [5.766701e-01, 4.232872e-01, 4.271314e-05],
+        'AVG-LOW': [5.766701e-01, 4.232872e-01, 4.271314e-05],
         'HIGH-LOW': [9.961240e-01, 3.806755e-03, 6.921373e-05],
         'LOW-AVG': [0.5794436587, 0.4203206035, 0.0002357379],
         'AVG-AVG': [6.129037e-01, 3.870808e-01, 1.543138e-05],
@@ -168,14 +180,62 @@ def main():
     node10.setProbabilities(node10Probabilities)
     node10.setParents(['Erk', 'PKA'])
     BayesianTree.append(node10)
-    getState()
 
     
-def getState():
+def setState():
+    possibleStates = ['LOW', 'AVG', 'HIGH']
+    i = 0
     stateAux = ''
-    for i in range(0, BayesianTree.__len__() - 1):
-        stateAux = 'HIGH'
-        BayesianTree[i].setState(stateAux)
+    while(i < BayesianTree.__len__()):
+        stateAux = input('Insira um estado para o nó ' + BayesianTree[i].name + ' dentre os possíveis estados (LOW or AVG or HIGH): ')
+        if stateAux in possibleStates:
+            BayesianTree[i].setState(stateAux)
+            i+= 1
+        else:
+            print('O estado inserido não é válido, insira novamente.\n')
+    print('\n')
+
+def calculateJointProbability():
+    auxState = ''
+    jointProbability = 1
+    
+    for i in range(0, BayesianTree.__len__()):
+        if not BayesianTree[i].parents:
+            if BayesianTree[i].state == 'LOW':
+                jointProbability *= BayesianTree[i].probabilities['SELF'][0]
+            if BayesianTree[i].state == 'AVG':
+                jointProbability *= BayesianTree[i].probabilities['SELF'][1]
+            if BayesianTree[i].state == 'HIGH':
+                jointProbability *= BayesianTree[i].probabilities['SELF'][2]
+        else:
+            auxState = getParentsState(BayesianTree[i])
+            if BayesianTree[i].state == 'LOW':
+                jointProbability *= BayesianTree[i].probabilities[auxState][0]
+            if BayesianTree[i].state == 'AVG':
+                jointProbability *= BayesianTree[i].probabilities[auxState][1]
+            if BayesianTree[i].state == 'HIGH':
+                jointProbability *= BayesianTree[i].probabilities[auxState][2]
+        print('Probabilidade calculada na iteração ' + str(i) + ': ' + str(jointProbability))
+    return jointProbability    
+
+def getParentsState(node):
+   parentsState = ''
+   j = 0
+
+   for i in range(0, node.parents.__len__()):
+       while j < BayesianTree.__len__() - 1:
+           if node.parents[i] == BayesianTree[j].name:
+                parentsState += BayesianTree[j].state
+                if(i != node.parents.__len__() - 1):
+                   parentsState += '-'
+                j = 0
+                break
+           else:
+               j += 1
+               
+   print('O estado formado é: ' + parentsState)
+
+   return parentsState
 
 if (__name__ == '__main__'):
     main()
