@@ -1,0 +1,11 @@
+pkc low
+plcg high
+pka avg
+pip3 high
+raf low
+jnk high
+p38 avg
+pip2 low
+mek low
+erk high
+akt avg

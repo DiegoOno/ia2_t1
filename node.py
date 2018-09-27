@@ -4,7 +4,8 @@ N_STATES = len(POSSIBLE_STATES)
 class Node:
     def __init__(self, name):
         self.name = name.upper()
-        self.previousStates = []
+        self.previousNodes = []
+        self.nextNodes = []
         self.stateProb = {}
         self.transitionProb = {}
 
