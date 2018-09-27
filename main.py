@@ -238,7 +238,7 @@ def calculateJointProbability():
                 jointProbability *= BayesianTree[i].probabilities[auxState][1]
             if BayesianTree[i].state == 'HIGH':
                 jointProbability *= BayesianTree[i].probabilities[auxState][2]
-        #print('Probabilidade calculada na iteração ' + str(i) + ': ' + str(jointProbability))
+                
     return jointProbability    
 
 def getParentsState(node):
@@ -255,8 +255,6 @@ def getParentsState(node):
                 break
            else:
                j += 1
-               
-   #print('O estado formado é: ' + parentsState)
 
    return parentsState
 
