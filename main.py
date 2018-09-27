@@ -4,16 +4,28 @@ BayesianTree = []
 
 def main():
     jointProbability = 0.0
-    
+    decision = 'sim'
+    typeOfInput = ''
+    fileName = ''
+
     populateBayesianTree()
-    setState()
-    jointProbability = calculateJointProbability()
+    while decision == 'sim':
+        typeOfInput = input('Escolha a forma de entrada dos dados da consulta (user -> para inserir pelo teclado; file -> para inserir através de um arquivo): ')
+        
+        if typeOfInput == 'user':
+            setStateByUser()
+        elif typeOfInput == 'file':
+            fileName = input('Insira o nome do arquivo de entrada: ')
+            setStateByFile(fileName)
+        else:
+            print('Opção de entrada de dados inválida. Encerrando programa\n')
+            decision = 'no'
+            break
 
-    #Debug
-    for i in range(0, BayesianTree.__len__()):
-        print('Estado no nó ' + BayesianTree[i].name + ': ' + BayesianTree[i].state + '\n')
+        jointProbability = calculateJointProbability()
+        print('A probabilidade conjunta da rede com os estados fornecidos é: ' + str(jointProbability) + '\n')
+        decision = input('Deseja realizar outra consulta? (sim/outra palavra)')
 
-    print('A probabilidade conjunta da rede com os estados fornecidos é: ' + str(jointProbability) + '\n')
 
 def populateBayesianTree():
 
@@ -182,7 +194,7 @@ def populateBayesianTree():
     BayesianTree.append(node10)
 
     
-def setState():
+def setStateByUser():
     possibleStates = ['LOW', 'AVG', 'HIGH']
     i = 0
     stateAux = ''
@@ -194,6 +206,17 @@ def setState():
         else:
             print('O estado inserido não é válido, insira novamente.\n')
     print('\n')
+
+def setStateByFile(fileName):
+    f = open(fileName, 'r')
+    inputs = f.read()
+    input_splitted = inputs.split(' ')
+
+    if input_splitted.__len__() == BayesianTree.__len__():
+        for i in range(0, input_splitted.__len__()):
+            BayesianTree[i].setState(input_splitted[i])
+    else:
+        print('Quantidade de estados do arquivo é diferente da quantidade de nós da rede bayesiana.\n') 
 
 def calculateJointProbability():
     auxState = ''
@@ -215,7 +238,7 @@ def calculateJointProbability():
                 jointProbability *= BayesianTree[i].probabilities[auxState][1]
             if BayesianTree[i].state == 'HIGH':
                 jointProbability *= BayesianTree[i].probabilities[auxState][2]
-        print('Probabilidade calculada na iteração ' + str(i) + ': ' + str(jointProbability))
+        #print('Probabilidade calculada na iteração ' + str(i) + ': ' + str(jointProbability))
     return jointProbability    
 
 def getParentsState(node):
@@ -233,7 +256,7 @@ def getParentsState(node):
            else:
                j += 1
                
-   print('O estado formado é: ' + parentsState)
+   #print('O estado formado é: ' + parentsState)
 
    return parentsState
 
