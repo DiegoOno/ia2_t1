@@ -5,7 +5,6 @@ class Node:
     def __init__(self, name):
         self.name = name.upper()
         self.previousNodes = []
-        self.nextNodes = []
         self.stateProb = {}
         self.transitionProb = {}
 

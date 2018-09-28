@@ -8,6 +8,8 @@ bayesianTree = {}
 initialNodes = {}
 #endingNodes = {}
 
+import itertools
+
 #Used later to map the tree
 #stateTransition[node] = previousNode
 nodeTransitions = {}
@@ -111,7 +113,7 @@ def main():
         print("Couldn't read the file.'")
         exit()
 
-    inputs = {}
+    knowledgeBase = {}
 
     for line in _input:
         line = line.split()
@@ -119,17 +121,60 @@ def main():
         nodeName = line[0].upper()
         nodeState = line[1].upper()
 
-        if (nodeName not in inputs):
-            inputs[nodeName] = nodeState
-
-        else:
-            print("Double definition of node: " + nodeName)
-            exit()
+        if (nodeName not in knowledgeBase):
+            knowledgeBase[nodeName] = nodeState
 
     jointProb = 1.0
     nodesLeft = endingNodes
     addedNodes = []
 
+    while (True):
+        for key, value in bayesianTree.items():
+            index = 0
+            if (value.name in initialNodes):
+                if (key in knowledgeBase):
+                    print("P(" + value.name + ")" + '[' + knowledgeBase[value.name] + '] = ', end='')
+                    print(value.getStateProb(knowledgeBase[value.name]))
+                else:
+                    for state, prob in stateProbs.items():
+                        print("P(" + value.name + ")" + '[' + state + '] = ', end='')
+            
+            else:
+                states = []
+                for prevNode in value.previousNodes:
+                    if (prevNode.name in knowledgeBase):
+                        states.append([knowledgeBase[prevNode.name]])
+                    else:
+                        states.append(['LOW', 'AVG', 'HIGH'])
+
+                permutations = []
+                if (len(states) > 0):
+                    permutations = itertools.product(*states)
+                
+                if (value.name in knowledgeBase):
+                    print("P(" + value.name + ")" + '[' + knowledgeBase[value.name] + '] ', end='')
+
+                    for p in permutations:
+                        for j in range(len(p)):
+                            print(' | ' + value.previousNodes[j].name + '[' + p[j] + ']', end='')
+
+                        print(' = ', end='')
+                        prob = value.transitionProb[tuple([x for x in p])]
+                        if (knowledgeBase[value.name] == 'LOW'):
+                            print(prob[0])
+                        elif (knowledgeBase[value.name] == 'AVG'):
+                            print(prob[1])
+                        elif (knowledgeBase[value.name] == 'HIGH'):
+                            print(prob[2])
+                        else:
+                            print("Should not be here. Check the code\n")
+                            exit()
+
+
+
+
+        input()
+    '''
     while(len(nodesLeft) != 0):
         currNode = bayesianTree[nodesLeft[0]]
         del nodesLeft[0]
@@ -171,7 +216,8 @@ def main():
 
     print("\nFinal probability: ", end=' ')
     print(jointProb*100)
-        
+    '''    
+
 #endmain
 
 if (__name__ == '__main__'):
