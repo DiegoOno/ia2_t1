@@ -135,6 +135,7 @@ def main():
                 if (key in knowledgeBase):
                     print("P(" + value.name + ")" + '[' + knowledgeBase[value.name] + '] = ', end='')
                     print(value.getStateProb(knowledgeBase[value.name]))
+                    print()
                 else:
                     for state, prob in value.stateProb.items():
                         print("P(" + value.name + ")" + '[' + state + '] = ', end='')
@@ -171,6 +172,7 @@ def main():
                         else:
                             print("Should not be here. Check the code\n")
                             exit()
+                    print()
                 else:
                     for state in POSSIBLE_STATES:
                         if (len(states) > 0):
