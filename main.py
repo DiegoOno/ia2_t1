@@ -114,7 +114,6 @@ def main():
         exit()
 
     knowledgeBase = {}
-
     for line in _input:
         line = line.split()
 
@@ -127,8 +126,11 @@ def main():
     jointProb = 1.0
     nodesLeft = endingNodes
     addedNodes = []
+    continueExecution = True
+    operationNumber = 0
+    operationSucess = False
 
-    while (True):
+    while (continueExecution):
         for key, value in bayesianTree.items():
             index = 0
             if (value.name in initialNodes):
@@ -196,8 +198,39 @@ def main():
                             else:
                                 print("Should not be here. Check the code\n")
                                 exit()
-                        print()
-        input()
+                    print()               
+        operationSucess = False
+        while(not operationSucess):                
+            print("==============================")                
+            print("Choose one operation\n")
+            print("1) Insert evidences\n")
+            print("0) EXIT\n")
+            operationNumber = int(input())
+        
+            if operationNumber == 0:
+                print("BYE!\n")
+                operationSucess = True
+                continueExecution = False
+            elif operationNumber == 1:
+                evidencesQuantity = int(input("Enter the quantity of evidences will be inserted: "))
+                i = 0
+                while i < evidencesQuantity:
+                    nodeName = input("Enter the node name: ")
+                    nodeState = input("Enter the node state: ")
+                    print("\n")
+                    if nodeName not in bayesianTree or nodeState not in POSSIBLE_STATES:
+                        print("Those data not valid\n")
+                    else:
+                        knowledgeBase[nodeName] = nodeState
+                        i += 1
+                operationSucess = True        
+
+            else:
+                print("This option not valid!\n")
+
+
+            
+    
     '''
     while(len(nodesLeft) != 0):
         currNode = bayesianTree[nodesLeft[0]]
