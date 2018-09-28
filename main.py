@@ -1,4 +1,4 @@
-from node import Node, N_STATES
+from node import Node, N_STATES, POSSIBLE_STATES
 
 FILE = "data/sachs.txt"
 INPUT = "data/input.txt"
@@ -136,8 +136,10 @@ def main():
                     print("P(" + value.name + ")" + '[' + knowledgeBase[value.name] + '] = ', end='')
                     print(value.getStateProb(knowledgeBase[value.name]))
                 else:
-                    for state, prob in stateProbs.items():
+                    for state, prob in value.stateProb.items():
                         print("P(" + value.name + ")" + '[' + state + '] = ', end='')
+                        print(prob)
+                    print()
             
             else:
                 states = []
@@ -169,10 +171,30 @@ def main():
                         else:
                             print("Should not be here. Check the code\n")
                             exit()
+                else:
+                    for state in POSSIBLE_STATES:
+                        if (len(states) > 0):
+                            permutations = itertools.product(*states)
 
+                        print("P(" + value.name + ")" + '[' + state + '] ', end='')
 
+                        for p in permutations:
+                            for j in range(len(p)):
+                                print(' | ' + value.previousNodes[j].name + '[' + p[j] + ']', end='')
 
+                            print(' = ', end='')
+                            prob = value.transitionProb[tuple([x for x in p])]
 
+                            if (state == 'LOW'):
+                                print(prob[0])
+                            elif (state == 'AVG'):
+                                print(prob[1])
+                            elif (state == 'HIGH'):
+                                print(prob[2])
+                            else:
+                                print("Should not be here. Check the code\n")
+                                exit()
+                        print()
         input()
     '''
     while(len(nodesLeft) != 0):
